@@ -4,15 +4,15 @@
  */
 package jpaControllers;
 
-import conexion.Detalleventa;
-import conexion.DetalleventaPK;
+import Models.Detalleventa;
+import Models.DetalleventaPK;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import conexion.Productos;
-import conexion.Ticket;
+import Models.Productos;
+import Models.Ticket;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
