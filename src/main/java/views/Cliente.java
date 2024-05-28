@@ -7,12 +7,15 @@ package views;
 import Models.ModeloTablaProducto;
 import Models.Productos;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import jpaControllers.ProductosJpaController;
 
 /**
@@ -29,6 +32,7 @@ public class Cliente extends javax.swing.JDialog {
      */
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("repaso_DAWFoodFinal_jar_1.0-SNAPSHOTPU");
     private static final ProductosJpaController pjc = new ProductosJpaController(emf);
+    private Map<Productos, Integer> carritoMap = new HashMap<>();
 
     public Cliente(Programa parent, boolean modal) {
         super(parent, modal);
@@ -36,6 +40,11 @@ public class Cliente extends javax.swing.JDialog {
         setLocationRelativeTo(parent);
         cargarDatosJTable();
     }
+    
+    public Map<Productos, Integer> getCarritoMap(){
+        return this.carritoMap;
+    }
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,15 +65,16 @@ public class Cliente extends javax.swing.JDialog {
         jLabelMostrarBebidas = new javax.swing.JLabel();
         jLabelMostrarPostres = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableComida = new javax.swing.JTable();
+        jTableProductos = new javax.swing.JTable();
+        jButtonAniadirAlCarrito = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
 
-        jButtonCerrar.setBackground(new java.awt.Color(255, 153, 153));
+        jButtonCerrar.setBackground(new java.awt.Color(153, 0, 0));
         jButtonCerrar.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        jButtonCerrar.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonCerrar.setForeground(new java.awt.Color(255, 255, 255));
         jButtonCerrar.setText("Cerrar");
         jButtonCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,9 +130,9 @@ public class Cliente extends javax.swing.JDialog {
             }
         });
 
-        jTableComida.setBackground(new java.awt.Color(204, 204, 204));
-        jTableComida.setForeground(new java.awt.Color(51, 51, 51));
-        jTableComida.setModel(new javax.swing.table.DefaultTableModel(
+        jTableProductos.setBackground(new java.awt.Color(204, 204, 204));
+        jTableProductos.setForeground(new java.awt.Color(51, 51, 51));
+        jTableProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -130,7 +140,17 @@ public class Cliente extends javax.swing.JDialog {
 
             }
         ));
-        jScrollPane1.setViewportView(jTableComida);
+        jScrollPane1.setViewportView(jTableProductos);
+
+        jButtonAniadirAlCarrito.setBackground(new java.awt.Color(255, 153, 153));
+        jButtonAniadirAlCarrito.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        jButtonAniadirAlCarrito.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonAniadirAlCarrito.setText("Añadir al Carrito");
+        jButtonAniadirAlCarrito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAniadirAlCarritoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -141,7 +161,7 @@ public class Cliente extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addContainerGap(767, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,14 +176,18 @@ public class Cliente extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabelMostrarBebidas)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1))
+                                .addComponent(jLabelMostrarBebidas))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButtonCerrar4)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonCerrar4)
+                        .addComponent(jButtonAniadirAlCarrito)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonCerrar)))
+                        .addComponent(jButtonCerrar))
+                    .addComponent(jScrollPane1))
                 .addGap(16, 16, 16))
         );
 
@@ -189,12 +213,14 @@ public class Cliente extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel6))
                             .addComponent(jLabelMostrarPostres))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonCerrar4)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCerrar)
-                    .addComponent(jButtonCerrar4))
+                    .addComponent(jButtonAniadirAlCarrito))
                 .addGap(16, 16, 16))
         );
 
@@ -219,7 +245,7 @@ public class Cliente extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonCerrarActionPerformed
 
     private void jButtonCerrar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrar4ActionPerformed
-        new VentanaCarrito(null, true).setVisible(true);
+        new VentanaCarrito(this, true).setVisible(true);
     }//GEN-LAST:event_jButtonCerrar4ActionPerformed
 
     private void jLabelMostrarComidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMostrarComidasMouseClicked
@@ -249,10 +275,15 @@ public class Cliente extends javax.swing.JDialog {
         jLabelMostrarComidas.setIcon(icon2);
     }//GEN-LAST:event_jLabelMostrarPostresMouseClicked
 
+    private void jButtonAniadirAlCarritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAniadirAlCarritoActionPerformed
+        aniadirCarrito();
+    }//GEN-LAST:event_jButtonAniadirAlCarritoActionPerformed
+
     /**
      * @param args the command line arguments
      */
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAniadirAlCarrito;
     private javax.swing.JButton jButtonCerrar;
     private javax.swing.JButton jButtonCerrar4;
     private javax.swing.JLabel jLabel1;
@@ -264,7 +295,7 @@ public class Cliente extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelMostrarPostres;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableComida;
+    private javax.swing.JTable jTableProductos;
     // End of variables declaration//GEN-END:variables
 
     public void cargarDatosJTable() {
@@ -296,9 +327,9 @@ public class Cliente extends javax.swing.JDialog {
         // Iteramos por la lista y asignamos a
         // cada celda del array el valor del atributo de esa persona
         // Decimos al JTable el modelo a usar
-        jTableComida.setModel(modelo);
+        jTableProductos.setModel(modelo);
     }
-    
+
     public void cargarDatosJTableComida() {
         // Se crea el modelo de datos que contendrá el JTable
         // Este modelo se rellena de datos y luego se asocia al JTable
@@ -313,7 +344,7 @@ public class Cliente extends javax.swing.JDialog {
         try {
             List<Productos> listProd = em.createNamedQuery("Productos.findAll", Productos.class).getResultList();
             List<Productos> listComida = new ArrayList<>();
-            
+
             for (Productos prod : listProd) {
                 if (prod.getIdTipoProducto().getIdTipoProducto() == 1) {
                     listComida.add(prod);
@@ -335,9 +366,9 @@ public class Cliente extends javax.swing.JDialog {
         // Iteramos por la lista y asignamos a
         // cada celda del array el valor del atributo de esa persona
         // Decimos al JTable el modelo a usar
-        jTableComida.setModel(modelo);
+        jTableProductos.setModel(modelo);
     }
-    
+
     public void cargarDatosJTableBebida() {
         // Se crea el modelo de datos que contendrá el JTable
         // Este modelo se rellena de datos y luego se asocia al JTable
@@ -352,7 +383,7 @@ public class Cliente extends javax.swing.JDialog {
         try {
             List<Productos> listProd = em.createNamedQuery("Productos.findAll", Productos.class).getResultList();
             List<Productos> listBebida = new ArrayList<>();
-            
+
             for (Productos prod : listProd) {
                 if (prod.getIdTipoProducto().getIdTipoProducto() == 2) {
                     listBebida.add(prod);
@@ -374,9 +405,9 @@ public class Cliente extends javax.swing.JDialog {
         // Iteramos por la lista y asignamos a
         // cada celda del array el valor del atributo de esa persona
         // Decimos al JTable el modelo a usar
-        jTableComida.setModel(modelo);
+        jTableProductos.setModel(modelo);
     }
-    
+
     public void cargarDatosJTablePostre() {
         // Se crea el modelo de datos que contendrá el JTable
         // Este modelo se rellena de datos y luego se asocia al JTable
@@ -391,7 +422,7 @@ public class Cliente extends javax.swing.JDialog {
         try {
             List<Productos> listProd = em.createNamedQuery("Productos.findAll", Productos.class).getResultList();
             List<Productos> listPostre = new ArrayList<>();
-            
+
             for (Productos prod : listProd) {
                 if (prod.getIdTipoProducto().getIdTipoProducto() == 3) {
                     listPostre.add(prod);
@@ -413,6 +444,28 @@ public class Cliente extends javax.swing.JDialog {
         // Iteramos por la lista y asignamos a
         // cada celda del array el valor del atributo de esa persona
         // Decimos al JTable el modelo a usar
-        jTableComida.setModel(modelo);
+        jTableProductos.setModel(modelo);
+    }
+
+    public void aniadirCarrito() {
+        try {
+            int row = jTableProductos.getSelectedRow();
+            
+            int id = (int) jTableProductos.getValueAt(row, 0);
+            
+            Productos p1 = pjc.findProductos(id);
+            
+            System.out.println(p1);
+            
+            if (carritoMap.containsKey(p1)) {
+                int count = carritoMap.get(p1);
+                carritoMap.put(p1, count + 1);
+            } else {
+                carritoMap.put(p1, 1);
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Producto no seleccionado.");
+        }
     }
 }

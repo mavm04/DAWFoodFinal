@@ -4,21 +4,37 @@
  */
 package views;
 
+import Models.ModeloTablaCarrito;
+import Models.Productos;
+import java.util.Map;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
+import jpaControllers.ProductosJpaController;
+
 /**
  *
  * @author miguel
  */
 public class VentanaCarrito extends javax.swing.JDialog {
 
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("repaso_DAWFoodFinal_jar_1.0-SNAPSHOTPU");
+    private static final ProductosJpaController pjc = new ProductosJpaController(emf);
+
+    public Map<Productos, Integer> carritoMap;
+
+    public VentanaCarrito(Cliente parent, boolean modal) {
+        super(parent, modal);
+        this.carritoMap = parent.getCarritoMap();
+        initComponents();
+        setLocationRelativeTo(parent);
+        Map<Productos, Integer> carritoMap = parent.getCarritoMap();
+        cargarDatosJTable();
+    }
+
     /**
      * Creates new form VentanaCarrito
      */
-    public VentanaCarrito(Programa parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
-        setLocationRelativeTo(parent);
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,8 +49,13 @@ public class VentanaCarrito extends javax.swing.JDialog {
         jTableCarrito = new javax.swing.JTable();
         jButtonCerrar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButtonCerrar1 = new javax.swing.JButton();
+        jButtonCerrar2 = new javax.swing.JButton();
+        jButtonCerrar3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
 
         jTableCarrito.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -46,9 +67,9 @@ public class VentanaCarrito extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(jTableCarrito);
 
-        jButtonCerrar.setBackground(new java.awt.Color(255, 153, 153));
+        jButtonCerrar.setBackground(new java.awt.Color(153, 0, 0));
         jButtonCerrar.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        jButtonCerrar.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonCerrar.setForeground(new java.awt.Color(255, 255, 255));
         jButtonCerrar.setText("Cerrar");
         jButtonCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -59,36 +80,83 @@ public class VentanaCarrito extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 153, 153));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("¡ Seleccione el tipo de producto que desea ver !");
+        jLabel1.setText("En el carrito puedes finalizar la compra o quitar productos del carrito.");
+
+        jButtonCerrar1.setBackground(new java.awt.Color(255, 153, 153));
+        jButtonCerrar1.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        jButtonCerrar1.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonCerrar1.setText("Quirtar del carrito");
+        jButtonCerrar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCerrar1ActionPerformed(evt);
+            }
+        });
+
+        jButtonCerrar2.setBackground(new java.awt.Color(255, 153, 153));
+        jButtonCerrar2.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        jButtonCerrar2.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonCerrar2.setText("Vaciar carrito completo");
+        jButtonCerrar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCerrar2ActionPerformed(evt);
+            }
+        });
+
+        jButtonCerrar3.setBackground(new java.awt.Color(0, 153, 153));
+        jButtonCerrar3.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        jButtonCerrar3.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonCerrar3.setText("Finalizar compra");
+        jButtonCerrar3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCerrar3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonCerrar3)
+                            .addComponent(jButtonCerrar2)
+                            .addComponent(jButtonCerrar1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonCerrar)))
                 .addContainerGap())
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonCerrar1, jButtonCerrar2, jButtonCerrar3});
+
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButtonCerrar)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonCerrar1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonCerrar2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonCerrar3)
+                    .addComponent(jButtonCerrar))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonCerrar1, jButtonCerrar2, jButtonCerrar3});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,14 +176,84 @@ public class VentanaCarrito extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButtonCerrarActionPerformed
 
+    private void jButtonCerrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrar1ActionPerformed
+        quitarDelCarrito();
+    }//GEN-LAST:event_jButtonCerrar1ActionPerformed
+
+    private void jButtonCerrar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrar2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonCerrar2ActionPerformed
+
+    private void jButtonCerrar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrar3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonCerrar3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCerrar;
+    private javax.swing.JButton jButtonCerrar1;
+    private javax.swing.JButton jButtonCerrar2;
+    private javax.swing.JButton jButtonCerrar3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableCarrito;
     // End of variables declaration//GEN-END:variables
+
+    public void cargarDatosJTable() {
+        // Se crea el modelo de datos que contendrá el JTable
+        // Este modelo se rellena de datos y luego se asocia al JTable
+        ModeloTablaCarrito modelo = new ModeloTablaCarrito();
+
+        // Array de object con el número de columnas del jtable
+        // Para guardar cada campo de cada Persona de la lista
+        Object[] fila = new Object[modelo.getColumnCount()];
+
+        try {
+            for (Map.Entry<Productos, Integer> entry : carritoMap.entrySet()) {
+                Productos key = entry.getKey();
+                Integer value = entry.getValue();
+
+                fila[0] = key.getIdProducto();
+                fila[1] = key.getDescripcion();
+                fila[2] = key.getIva();
+                fila[3] = key.getPrecio();
+                fila[4] = value;
+
+                modelo.addRow(fila);
+            }
+            // Agregamos esta fila a nuestro modelo
+        } catch (Exception e) {
+        }
+        // Iteramos por la lista y asignamos a
+        // cada celda del array el valor del atributo de esa persona
+        // Decimos al JTable el modelo a usar
+        jTableCarrito.setModel(modelo);
+    }
+
+    public void quitarDelCarrito() {
+
+        try {
+            int row = jTableCarrito.getSelectedRow();
+
+            int id = (int) jTableCarrito.getValueAt(row, 0);
+            int cant = (int) jTableCarrito.getValueAt(row, 4);
+
+            Productos p1 = pjc.findProductos(id);
+
+            if (carritoMap.containsKey(p1) && cant > 1) {
+                Integer value = carritoMap.get(p1);
+                // Decrementar el valor y actualizar el mapa
+                carritoMap.put(p1, value - 1);
+            } else if (cant == 1) {
+                carritoMap.remove(p1);
+            }
+
+            cargarDatosJTable();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No has seleccionado un producto.");
+        }
+    }
 }

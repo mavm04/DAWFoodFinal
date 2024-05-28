@@ -38,9 +38,9 @@ public class Admin extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
 
-        jButtonCerrar.setBackground(new java.awt.Color(255, 153, 153));
+        jButtonCerrar.setBackground(new java.awt.Color(153, 0, 0));
         jButtonCerrar.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        jButtonCerrar.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonCerrar.setForeground(new java.awt.Color(255, 255, 255));
         jButtonCerrar.setText("Cerrar");
         jButtonCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
