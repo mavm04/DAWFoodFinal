@@ -57,7 +57,7 @@ public class Cliente extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jButtonCerrar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButtonCerrar4 = new javax.swing.JButton();
+        jButtonVerCarrito = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -67,6 +67,7 @@ public class Cliente extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableProductos = new javax.swing.JTable();
         jButtonAniadirAlCarrito = new javax.swing.JButton();
+        jSpinnerCantProd = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -87,13 +88,13 @@ public class Cliente extends javax.swing.JDialog {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("¡ Seleccione el tipo de producto que desea ver !");
 
-        jButtonCerrar4.setBackground(new java.awt.Color(255, 153, 153));
-        jButtonCerrar4.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        jButtonCerrar4.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonCerrar4.setText("Ver carrito");
-        jButtonCerrar4.addActionListener(new java.awt.event.ActionListener() {
+        jButtonVerCarrito.setBackground(new java.awt.Color(0, 153, 153));
+        jButtonVerCarrito.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        jButtonVerCarrito.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonVerCarrito.setText("Ver carrito");
+        jButtonVerCarrito.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCerrar4ActionPerformed(evt);
+                jButtonVerCarritoActionPerformed(evt);
             }
         });
 
@@ -152,18 +153,18 @@ public class Cliente extends javax.swing.JDialog {
             }
         });
 
+        jSpinnerCantProd.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        jSpinnerCantProd.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jLabel1)
-                .addContainerGap(767, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
+                        .addGap(15, 15, 15)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
@@ -176,19 +177,19 @@ public class Cliente extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabelMostrarBebidas))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButtonCerrar4)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonAniadirAlCarrito)
+                                .addComponent(jLabelMostrarBebidas)))
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonCerrar))
-                    .addComponent(jScrollPane1))
-                .addGap(16, 16, 16))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1002, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButtonAniadirAlCarrito, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSpinnerCantProd, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(84, 84, 84)
+                        .addComponent(jButtonVerCarrito)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonCerrar)))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel2, jLabel5, jLabel6});
@@ -212,19 +213,20 @@ public class Cliente extends javax.swing.JDialog {
                                     .addComponent(jLabel5))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel6))
-                            .addComponent(jLabelMostrarPostres))
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonCerrar4)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabelMostrarPostres)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCerrar)
-                    .addComponent(jButtonAniadirAlCarrito))
+                    .addComponent(jSpinnerCantProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonAniadirAlCarrito)
+                    .addComponent(jButtonVerCarrito))
                 .addGap(16, 16, 16))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel2, jLabel5, jLabel6});
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonAniadirAlCarrito, jButtonVerCarrito});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -244,9 +246,9 @@ public class Cliente extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButtonCerrarActionPerformed
 
-    private void jButtonCerrar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrar4ActionPerformed
+    private void jButtonVerCarritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerCarritoActionPerformed
         new VentanaCarrito(this, true).setVisible(true);
-    }//GEN-LAST:event_jButtonCerrar4ActionPerformed
+    }//GEN-LAST:event_jButtonVerCarritoActionPerformed
 
     private void jLabelMostrarComidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMostrarComidasMouseClicked
         cargarDatosJTableComida();
@@ -285,7 +287,7 @@ public class Cliente extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAniadirAlCarrito;
     private javax.swing.JButton jButtonCerrar;
-    private javax.swing.JButton jButtonCerrar4;
+    private javax.swing.JButton jButtonVerCarrito;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
@@ -295,6 +297,7 @@ public class Cliente extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelMostrarPostres;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinnerCantProd;
     private javax.swing.JTable jTableProductos;
     // End of variables declaration//GEN-END:variables
 
@@ -459,13 +462,13 @@ public class Cliente extends javax.swing.JDialog {
             
             if (carritoMap.containsKey(p1)) {
                 int count = carritoMap.get(p1);
-                carritoMap.put(p1, count + 1);
+                carritoMap.put(p1, count + Integer.parseInt(jSpinnerCantProd.getValue().toString().trim()));
             } else {
-                carritoMap.put(p1, 1);
+                carritoMap.put(p1, Integer.parseInt(jSpinnerCantProd.getValue().toString().trim()));
             }
-            
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Producto no seleccionado.");
+            JOptionPane.showMessageDialog(null, "Producto no seleccionado o cantidad erronea.");
         }
     }
 }

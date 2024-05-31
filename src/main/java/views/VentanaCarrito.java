@@ -6,11 +6,24 @@ package views;
 
 import Models.ModeloTablaCarrito;
 import Models.Productos;
+import Models.Ticket;
+import Models.Tpv;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
 import jpaControllers.ProductosJpaController;
+import jpaControllers.TicketJpaController;
+import jpaControllers.TpvJpaController;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  *
@@ -20,6 +33,8 @@ public class VentanaCarrito extends javax.swing.JDialog {
 
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("repaso_DAWFoodFinal_jar_1.0-SNAPSHOTPU");
     private static final ProductosJpaController pjc = new ProductosJpaController(emf);
+    private static final TpvJpaController tjc = new TpvJpaController(emf);
+    private static final TicketJpaController tijc = new TicketJpaController(emf);
 
     public Map<Productos, Integer> carritoMap;
 
@@ -30,6 +45,7 @@ public class VentanaCarrito extends javax.swing.JDialog {
         setLocationRelativeTo(parent);
         Map<Productos, Integer> carritoMap = parent.getCarritoMap();
         cargarDatosJTable();
+        calcularPrecioFinal();
     }
 
     /**
@@ -52,6 +68,8 @@ public class VentanaCarrito extends javax.swing.JDialog {
         jButtonCerrar1 = new javax.swing.JButton();
         jButtonCerrar2 = new javax.swing.JButton();
         jButtonCerrar3 = new javax.swing.JButton();
+        jTextFieldPrecioFinal = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -95,7 +113,7 @@ public class VentanaCarrito extends javax.swing.JDialog {
         jButtonCerrar2.setBackground(new java.awt.Color(255, 153, 153));
         jButtonCerrar2.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         jButtonCerrar2.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonCerrar2.setText("Vaciar carrito completo");
+        jButtonCerrar2.setText("Vaciar carrito");
         jButtonCerrar2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCerrar2ActionPerformed(evt);
@@ -112,27 +130,39 @@ public class VentanaCarrito extends javax.swing.JDialog {
             }
         });
 
+        jTextFieldPrecioFinal.setBackground(new java.awt.Color(213, 213, 213));
+        jTextFieldPrecioFinal.setForeground(new java.awt.Color(0, 0, 0));
+        jTextFieldPrecioFinal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Precio final:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jLabel1)
+                .addContainerGap(25, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
+                        .addGap(19, 19, 19)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButtonCerrar3)
                             .addComponent(jButtonCerrar2)
                             .addComponent(jButtonCerrar1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonCerrar)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldPrecioFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButtonCerrar, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
 
@@ -145,15 +175,23 @@ public class VentanaCarrito extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonCerrar1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonCerrar2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCerrar3)
-                    .addComponent(jButtonCerrar))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jButtonCerrar1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonCerrar2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonCerrar3)
+                        .addContainerGap(18, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldPrecioFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonCerrar)
+                        .addContainerGap())))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonCerrar1, jButtonCerrar2, jButtonCerrar3});
@@ -181,11 +219,11 @@ public class VentanaCarrito extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonCerrar1ActionPerformed
 
     private void jButtonCerrar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrar2ActionPerformed
-        // TODO add your handling code here:
+        vaciarCarrito();
     }//GEN-LAST:event_jButtonCerrar2ActionPerformed
 
     private void jButtonCerrar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrar3ActionPerformed
-        // TODO add your handling code here:
+        generarTicket();
     }//GEN-LAST:event_jButtonCerrar3ActionPerformed
 
     /**
@@ -197,9 +235,11 @@ public class VentanaCarrito extends javax.swing.JDialog {
     private javax.swing.JButton jButtonCerrar2;
     private javax.swing.JButton jButtonCerrar3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableCarrito;
+    private javax.swing.JTextField jTextFieldPrecioFinal;
     // End of variables declaration//GEN-END:variables
 
     public void cargarDatosJTable() {
@@ -252,8 +292,77 @@ public class VentanaCarrito extends javax.swing.JDialog {
             }
 
             cargarDatosJTable();
+            calcularPrecioFinal();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No has seleccionado un producto.");
         }
+    }
+
+    public void vaciarCarrito() {
+
+        try {
+            carritoMap.clear();
+            jTextFieldPrecioFinal.setText("");
+            cargarDatosJTable();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al borrar los productos.");
+        }
+    }
+
+    public void calcularPrecioFinal() {
+
+        double precioFinal = 0;
+        double precioProd = 0;
+        double cant = 0;
+
+        try {
+            for (Map.Entry<Productos, Integer> entry : carritoMap.entrySet()) {
+                Productos key = entry.getKey();
+                Integer value = entry.getValue();
+
+                precioProd = Double.parseDouble(key.getPrecio().toString());
+                cant = Double.parseDouble(value.toString());
+
+                precioFinal += (precioProd * cant);
+            }
+            // Agregamos esta fila a nuestro modelo
+        } catch (Exception e) {
+        }
+
+        DecimalFormat formato = new DecimalFormat("#.00");
+
+        String precioFormateado = formato.format(precioFinal);
+
+        jTextFieldPrecioFinal.setText(precioFormateado + " €");
+    }
+    
+    public void generarTicket(){
+        
+        EntityManager em = emf.createEntityManager();
+        
+        Ticket t1 = new Ticket();
+        
+        LocalDate localDate = LocalDate.now();
+        // Convertir LocalDate a Instant
+        Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        // Crear un objeto Date a partir del Instant
+        Date fecha = Date.from(instant);
+        
+        t1.setHoraOperacion(fecha);
+        
+        t1.setHoraOperacion(fecha);
+        
+        t1.setCodTransaccion(RandomStringUtils.randomAlphanumeric(10));
+        
+        List<Tpv> tpvList = em.createNamedQuery("Tpv.findAll", Tpv.class).getResultList();
+        Tpv tpv = tpvList.get(0);
+        
+        t1.setIdTpv(tpv);
+        
+        BigDecimal bd = new BigDecimal(Double.parseDouble(jTextFieldPrecioFinal.getText()));
+        t1.setImporteTotal(bd);
+        
+        tijc.create(t1);
     }
 }
