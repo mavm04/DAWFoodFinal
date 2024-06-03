@@ -152,7 +152,7 @@ public class Admin extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonCerrarActionPerformed
 
     private void jButtonCrudProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrudProdActionPerformed
-        new AdminCrudProductos(this, true).setVisible(true);
+        new AdminCrud(this, true).setVisible(true);
     }//GEN-LAST:event_jButtonCrudProdActionPerformed
 
     private void jButtonConsultarTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarTicketsActionPerformed
