@@ -4,6 +4,8 @@
  */
 package views;
 
+import Models.Detalleventa;
+import Models.DetalleventaPK;
 import Models.ModeloTablaCarrito;
 import Models.Productos;
 import Models.Ticket;
@@ -12,14 +14,18 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
+import jpaControllers.DetalleventaJpaController;
 import jpaControllers.ProductosJpaController;
 import jpaControllers.TicketJpaController;
 import jpaControllers.TpvJpaController;
@@ -35,8 +41,9 @@ public class VentanaCarrito extends javax.swing.JDialog {
     private static final ProductosJpaController pjc = new ProductosJpaController(emf);
     private static final TpvJpaController tjc = new TpvJpaController(emf);
     private static final TicketJpaController tijc = new TicketJpaController(emf);
+    private static final DetalleventaJpaController dtjc = new DetalleventaJpaController(emf);
 
-    public Map<Productos, Integer> carritoMap;
+    public static Map<Productos, Integer> carritoMap;
 
     public VentanaCarrito(Cliente parent, boolean modal) {
         super(parent, modal);
@@ -48,6 +55,14 @@ public class VentanaCarrito extends javax.swing.JDialog {
         calcularPrecioFinal();
     }
 
+    public static Map<Productos, Integer> getCarritoMap() {
+        return carritoMap;
+    }
+
+    public static String getPrecioFinal() {
+        return jTextFieldPrecioFinal.getText().trim();
+    }
+    
     /**
      * Creates new form VentanaCarrito
      */
@@ -67,7 +82,7 @@ public class VentanaCarrito extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jButtonCerrar1 = new javax.swing.JButton();
         jButtonCerrar2 = new javax.swing.JButton();
-        jButtonCerrar3 = new javax.swing.JButton();
+        jButtonFinalizarCompra = new javax.swing.JButton();
         jTextFieldPrecioFinal = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
 
@@ -120,13 +135,13 @@ public class VentanaCarrito extends javax.swing.JDialog {
             }
         });
 
-        jButtonCerrar3.setBackground(new java.awt.Color(0, 153, 153));
-        jButtonCerrar3.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        jButtonCerrar3.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonCerrar3.setText("Finalizar compra");
-        jButtonCerrar3.addActionListener(new java.awt.event.ActionListener() {
+        jButtonFinalizarCompra.setBackground(new java.awt.Color(0, 153, 153));
+        jButtonFinalizarCompra.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        jButtonFinalizarCompra.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonFinalizarCompra.setText("Finalizar compra");
+        jButtonFinalizarCompra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCerrar3ActionPerformed(evt);
+                jButtonFinalizarCompraActionPerformed(evt);
             }
         });
 
@@ -153,7 +168,7 @@ public class VentanaCarrito extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonCerrar3)
+                            .addComponent(jButtonFinalizarCompra)
                             .addComponent(jButtonCerrar2)
                             .addComponent(jButtonCerrar1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -166,7 +181,7 @@ public class VentanaCarrito extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonCerrar1, jButtonCerrar2, jButtonCerrar3});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonCerrar1, jButtonCerrar2, jButtonFinalizarCompra});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,7 +197,7 @@ public class VentanaCarrito extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonCerrar2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonCerrar3)
+                        .addComponent(jButtonFinalizarCompra)
                         .addContainerGap(18, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -194,7 +209,7 @@ public class VentanaCarrito extends javax.swing.JDialog {
                         .addContainerGap())))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonCerrar1, jButtonCerrar2, jButtonCerrar3});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonCerrar1, jButtonCerrar2, jButtonFinalizarCompra});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -222,10 +237,19 @@ public class VentanaCarrito extends javax.swing.JDialog {
         vaciarCarrito();
     }//GEN-LAST:event_jButtonCerrar2ActionPerformed
 
-    private void jButtonCerrar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrar3ActionPerformed
-        generarTicket();
-    }//GEN-LAST:event_jButtonCerrar3ActionPerformed
+    private void jButtonFinalizarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFinalizarCompraActionPerformed
+        Ticket t1 = generarTicket();
+        modificarStock();
+        generarDetalleVenta(t1);
+        Cliente.cargarDatosJTable();
+        filesUtils.GenerarTicket.ticketString();
+        dispose();
+    }//GEN-LAST:event_jButtonFinalizarCompraActionPerformed
 
+    public void cargarTabla(Cliente parent){
+        parent.cargarDatosJTable();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -233,13 +257,13 @@ public class VentanaCarrito extends javax.swing.JDialog {
     private javax.swing.JButton jButtonCerrar;
     private javax.swing.JButton jButtonCerrar1;
     private javax.swing.JButton jButtonCerrar2;
-    private javax.swing.JButton jButtonCerrar3;
+    private javax.swing.JButton jButtonFinalizarCompra;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableCarrito;
-    private javax.swing.JTextField jTextFieldPrecioFinal;
+    private static javax.swing.JTextField jTextFieldPrecioFinal;
     // End of variables declaration//GEN-END:variables
 
     public void cargarDatosJTable() {
@@ -326,8 +350,8 @@ public class VentanaCarrito extends javax.swing.JDialog {
 
                 precioFinal += (precioProd * cant);
             }
-            // Agregamos esta fila a nuestro modelo
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al calcular el precio final.");
         }
 
         DecimalFormat formato = new DecimalFormat("#.00");
@@ -336,33 +360,80 @@ public class VentanaCarrito extends javax.swing.JDialog {
 
         jTextFieldPrecioFinal.setText(precioFormateado + " €");
     }
-    
-    public void generarTicket(){
-        
+
+    public Ticket generarTicket() {
+
         EntityManager em = emf.createEntityManager();
-        
+
         Ticket t1 = new Ticket();
-        
+
         LocalDate localDate = LocalDate.now();
         // Convertir LocalDate a Instant
         Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
         // Crear un objeto Date a partir del Instant
         Date fecha = Date.from(instant);
-        
-        t1.setHoraOperacion(fecha);
-        
-        t1.setHoraOperacion(fecha);
-        
+        t1.setFechaOperacion(fecha);
+
+        //hora
+        LocalDateTime ldt = LocalDateTime.now();
+        String hora = ldt.getHour() + "-" + ldt.getMinute() + "-" + ldt.getSecond();
+        t1.setHoraOperacion(hora);
+
+        //cod transaccion
         t1.setCodTransaccion(RandomStringUtils.randomAlphanumeric(10));
-        
+
+        //tpv
         List<Tpv> tpvList = em.createNamedQuery("Tpv.findAll", Tpv.class).getResultList();
         Tpv tpv = tpvList.get(0);
-        
         t1.setIdTpv(tpv);
-        
-        BigDecimal bd = new BigDecimal(Double.parseDouble(jTextFieldPrecioFinal.getText()));
+
+        //precio
+        String[] parts = jTextFieldPrecioFinal.getText().trim().split(" ");
+
+        String[] partsTmp = parts[0].trim().split(",");
+        String precioFinalString = partsTmp[0] + "." + partsTmp[1];
+
+        BigDecimal bd = new BigDecimal(Double.parseDouble(precioFinalString));
         t1.setImporteTotal(bd);
-        
         tijc.create(t1);
+
+        return t1;
+    }
+
+    public void generarDetalleVenta(Ticket t1) {
+
+        for (Map.Entry<Productos, Integer> entry : carritoMap.entrySet()) {
+            try {
+                Productos key = entry.getKey();
+                Integer value = entry.getValue();
+
+                DetalleventaPK dvpk = new DetalleventaPK(key.getIdProducto(), t1.getIdTicket());
+
+                Detalleventa dvTmp = new Detalleventa(dvpk, WIDTH, key, t1);
+                dvTmp.setCantidadProducto(value);
+                dtjc.create(dvTmp);
+            } catch (Exception ex) {
+                Logger.getLogger(VentanaCarrito.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public void modificarStock() {
+
+        for (Map.Entry<Productos, Integer> entry : carritoMap.entrySet()) {
+            try {
+                Productos key = entry.getKey();
+                Integer value = entry.getValue();
+
+                if (key.getStock() >= value) {
+                    key.setStock(key.getStock() - value);
+                    Productos p1 = key;
+                    pjc.edit(p1);
+                }
+
+            } catch (Exception ex) {
+                Logger.getLogger(VentanaCarrito.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }
