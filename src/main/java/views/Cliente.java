@@ -298,10 +298,10 @@ public class Cliente extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinnerCantProd;
-    private javax.swing.JTable jTableProductos;
+    private static javax.swing.JTable jTableProductos;
     // End of variables declaration//GEN-END:variables
 
-    public void cargarDatosJTable() {
+    public static void cargarDatosJTable() {
         // Se crea el modelo de datos que contendrá el JTable
         // Este modelo se rellena de datos y luego se asocia al JTable
         ModeloTablaProducto modelo = new ModeloTablaProducto();

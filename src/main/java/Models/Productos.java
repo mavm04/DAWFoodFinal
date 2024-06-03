@@ -152,7 +152,7 @@ public class Productos implements Serializable {
 
     @Override
     public String toString() {
-        return "conexion.Productos[ idProducto=" + idProducto + " ]";
+        return "Models.Productos[ idProducto=" + idProducto + " ]";
     }
     
 }

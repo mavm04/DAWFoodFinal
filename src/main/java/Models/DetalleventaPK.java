@@ -73,7 +73,7 @@ public class DetalleventaPK implements Serializable {
 
     @Override
     public String toString() {
-        return "conexion.DetalleventaPK[ idProducto=" + idProducto + ", idTicket=" + idTicket + " ]";
+        return "Models.DetalleventaPK[ idProducto=" + idProducto + ", idTicket=" + idTicket + " ]";
     }
     
 }

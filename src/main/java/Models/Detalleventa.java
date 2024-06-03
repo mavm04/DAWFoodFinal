@@ -106,6 +106,7 @@ public class Detalleventa implements Serializable {
 
     @Override
     public String toString() {
-        return "conexion.Detalleventa[ detalleventaPK=" + detalleventaPK + " ]";
+        return "Models.Detalleventa[ detalleventaPK=" + detalleventaPK + " ]";
     }
+    
 }

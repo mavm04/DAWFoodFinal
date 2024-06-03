@@ -114,7 +114,7 @@ public class Tipoproducto implements Serializable {
 
     @Override
     public String toString() {
-        return "conexion.Tipoproducto[ idTipoProducto=" + idTipoProducto + " ]";
+        return "Models.Tipoproducto[ idTipoProducto=" + idTipoProducto + " ]";
     }
     
 }

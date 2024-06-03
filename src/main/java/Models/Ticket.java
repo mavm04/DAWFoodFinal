@@ -58,8 +58,7 @@ public class Ticket implements Serializable {
     @Column(name = "importeTotal")
     private BigDecimal importeTotal;
     @Column(name = "fechaOperacion")
-    @Temporal(TemporalType.DATE)
-    private Date fechaOperacion;
+    private String fechaOperacion;
     @JoinColumn(name = "IdTpv", referencedColumnName = "IdTpv")
     @ManyToOne
     private Tpv idTpv;
@@ -110,11 +109,11 @@ public class Ticket implements Serializable {
         this.importeTotal = importeTotal;
     }
 
-    public Date getFechaOperacion() {
+    public String getFechaOperacion() {
         return fechaOperacion;
     }
 
-    public void setFechaOperacion(Date fechaOperacion) {
+    public void setFechaOperacion(String fechaOperacion) {
         this.fechaOperacion = fechaOperacion;
     }
 
@@ -157,7 +156,7 @@ public class Ticket implements Serializable {
 
     @Override
     public String toString() {
-        return "conexion.Ticket[ idTicket=" + idTicket + " ]";
+        return "Models.Ticket[ idTicket=" + idTicket + " ]";
     }
     
 }
