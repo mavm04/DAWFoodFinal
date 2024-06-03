@@ -11,7 +11,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author miguel
+ * @author migue
  */
 @Embeddable
 public class DetalleventaPK implements Serializable {

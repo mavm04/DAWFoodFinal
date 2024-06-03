@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author miguel
+ * @author migue
  */
 @Entity
 @Table(name = "ticket")
@@ -52,13 +52,13 @@ public class Ticket implements Serializable {
     @Column(name = "codTransaccion")
     private String codTransaccion;
     @Column(name = "horaOperacion")
-    @Temporal(TemporalType.DATE)
-    private Date horaOperacion;
+    private String horaOperacion;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "importeTotal")
     private BigDecimal importeTotal;
     @Column(name = "fechaOperacion")
-    private String fechaOperacion;
+    @Temporal(TemporalType.DATE)
+    private Date fechaOperacion;
     @JoinColumn(name = "IdTpv", referencedColumnName = "IdTpv")
     @ManyToOne
     private Tpv idTpv;
@@ -93,11 +93,11 @@ public class Ticket implements Serializable {
         this.codTransaccion = codTransaccion;
     }
 
-    public Date getHoraOperacion() {
+    public String getHoraOperacion() {
         return horaOperacion;
     }
 
-    public void setHoraOperacion(Date horaOperacion) {
+    public void setHoraOperacion(String horaOperacion) {
         this.horaOperacion = horaOperacion;
     }
 
@@ -109,11 +109,11 @@ public class Ticket implements Serializable {
         this.importeTotal = importeTotal;
     }
 
-    public String getFechaOperacion() {
+    public Date getFechaOperacion() {
         return fechaOperacion;
     }
 
-    public void setFechaOperacion(String fechaOperacion) {
+    public void setFechaOperacion(Date fechaOperacion) {
         this.fechaOperacion = fechaOperacion;
     }
 

@@ -21,7 +21,7 @@ import jpaControllers.exceptions.PreexistingEntityException;
 
 /**
  *
- * @author miguel
+ * @author migue
  */
 public class DetalleventaJpaController implements Serializable {
 

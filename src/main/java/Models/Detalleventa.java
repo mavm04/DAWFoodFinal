@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author miguel
+ * @author migue
  */
 @Entity
 @Table(name = "detalleventa")
@@ -49,14 +49,6 @@ public class Detalleventa implements Serializable {
         this.cantidadProducto = cantidadProducto;
         this.productos = productos;
         this.ticket = ticket;
-    }
-    
-    public Detalleventa(DetalleventaPK detalleventaPK) {
-        this.detalleventaPK = detalleventaPK;
-    }
-
-    public Detalleventa(int idProducto, int idTicket) {
-        this.detalleventaPK = new DetalleventaPK(idProducto, idTicket);
     }
 
     public DetalleventaPK getDetalleventaPK() {
@@ -115,5 +107,4 @@ public class Detalleventa implements Serializable {
     public String toString() {
         return "Models.Detalleventa[ detalleventaPK=" + detalleventaPK + " ]";
     }
-    
 }

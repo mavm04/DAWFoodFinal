@@ -22,7 +22,7 @@ import jpaControllers.exceptions.NonexistentEntityException;
 
 /**
  *
- * @author miguel
+ * @author migue
  */
 public class TicketJpaController implements Serializable {
 

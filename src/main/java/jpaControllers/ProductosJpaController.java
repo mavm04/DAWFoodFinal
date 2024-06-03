@@ -22,7 +22,7 @@ import jpaControllers.exceptions.NonexistentEntityException;
 
 /**
  *
- * @author miguel
+ * @author migue
  */
 public class ProductosJpaController implements Serializable {
 
@@ -228,4 +228,5 @@ public class ProductosJpaController implements Serializable {
             em.close();
         }
     }
+    
 }

@@ -20,7 +20,7 @@ import jpaControllers.exceptions.NonexistentEntityException;
 
 /**
  *
- * @author miguel
+ * @author migue
  */
 public class TpvJpaController implements Serializable {
 

@@ -41,10 +41,10 @@ public class Cliente extends javax.swing.JDialog {
         cargarDatosJTable();
     }
     
-    public Map<Productos, Integer> getCarritoMap(){
+    public Map<Productos, Integer> getCarritoMap() {
         return this.carritoMap;
     }
-   
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -153,7 +153,7 @@ public class Cliente extends javax.swing.JDialog {
             }
         });
 
-        jSpinnerCantProd.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        jSpinnerCantProd.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
         jSpinnerCantProd.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -452,21 +452,23 @@ public class Cliente extends javax.swing.JDialog {
 
     public void aniadirCarrito() {
         try {
+
             int row = jTableProductos.getSelectedRow();
-            
+
             int id = (int) jTableProductos.getValueAt(row, 0);
-            
+
             Productos p1 = pjc.findProductos(id);
             
-            System.out.println(p1);
-            
-            if (carritoMap.containsKey(p1)) {
-                int count = carritoMap.get(p1);
-                carritoMap.put(p1, count + Integer.parseInt(jSpinnerCantProd.getValue().toString().trim()));
+            if (p1.getStock() >= Integer.parseInt(jSpinnerCantProd.getValue().toString().trim())) {
+                if (carritoMap.containsKey(p1)) {
+                    int count = carritoMap.get(p1);
+                    carritoMap.put(p1, count + Integer.parseInt(jSpinnerCantProd.getValue().toString().trim()));
+                } else {
+                    carritoMap.put(p1, Integer.parseInt(jSpinnerCantProd.getValue().toString().trim()));
+                }
             } else {
-                carritoMap.put(p1, Integer.parseInt(jSpinnerCantProd.getValue().toString().trim()));
+                JOptionPane.showMessageDialog(null, "No hay Stock suficiente del producto seleccionado.");
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Producto no seleccionado o cantidad erronea.");
         }
