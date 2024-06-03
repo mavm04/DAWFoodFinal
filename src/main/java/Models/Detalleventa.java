@@ -44,6 +44,13 @@ public class Detalleventa implements Serializable {
     public Detalleventa() {
     }
 
+    public Detalleventa(DetalleventaPK detalleventaPK, Integer cantidadProducto, Productos productos, Ticket ticket) {
+        this.detalleventaPK = detalleventaPK;
+        this.cantidadProducto = cantidadProducto;
+        this.productos = productos;
+        this.ticket = ticket;
+    }
+    
     public Detalleventa(DetalleventaPK detalleventaPK) {
         this.detalleventaPK = detalleventaPK;
     }
