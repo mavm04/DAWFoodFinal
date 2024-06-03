@@ -140,7 +140,7 @@ public class Programa extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdminActionPerformed
-        new Admin(this, true).setVisible(true);
+        new AdminLogin(this, true).setVisible(true);
     }//GEN-LAST:event_jButtonAdminActionPerformed
 
     private void jButtonCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrarActionPerformed
