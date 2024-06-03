@@ -29,8 +29,6 @@ public class AdminConsultarTickets extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jButtonCerrar = new javax.swing.JButton();
-        jButtonCrudProd = new javax.swing.JButton();
-        jButtonConsultarTickets = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -49,58 +47,22 @@ public class AdminConsultarTickets extends javax.swing.JDialog {
             }
         });
 
-        jButtonCrudProd.setBackground(new java.awt.Color(255, 153, 153));
-        jButtonCrudProd.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        jButtonCrudProd.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonCrudProd.setText("CRUD Productos");
-        jButtonCrudProd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCrudProdActionPerformed(evt);
-            }
-        });
-
-        jButtonConsultarTickets.setBackground(new java.awt.Color(255, 153, 153));
-        jButtonConsultarTickets.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        jButtonConsultarTickets.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonConsultarTickets.setText("Consultar Tickets");
-        jButtonConsultarTickets.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonConsultarTicketsActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(78, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButtonCerrar)
-                        .addGap(17, 17, 17))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButtonCrudProd)
-                        .addGap(38, 38, 38)
-                        .addComponent(jButtonConsultarTickets)
-                        .addGap(71, 71, 71))))
+                .addContainerGap(439, Short.MAX_VALUE)
+                .addComponent(jButtonCerrar)
+                .addGap(17, 17, 17))
         );
-
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonConsultarTickets, jButtonCrudProd});
-
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCrudProd)
-                    .addComponent(jButtonConsultarTickets))
-                .addGap(18, 18, 18)
+                .addContainerGap(272, Short.MAX_VALUE)
                 .addComponent(jButtonCerrar)
                 .addGap(14, 14, 14))
         );
-
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonConsultarTickets, jButtonCrudProd});
 
         jPanel2.setBackground(new java.awt.Color(16, 16, 16));
 
@@ -145,21 +107,11 @@ public class AdminConsultarTickets extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButtonCerrarActionPerformed
 
-    private void jButtonCrudProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrudProdActionPerformed
-
-    }//GEN-LAST:event_jButtonCrudProdActionPerformed
-
-    private void jButtonConsultarTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarTicketsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonConsultarTicketsActionPerformed
-
     /**
      * @param args the command line arguments
      */
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCerrar;
-    private javax.swing.JButton jButtonConsultarTickets;
-    private javax.swing.JButton jButtonCrudProd;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

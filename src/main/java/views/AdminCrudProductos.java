@@ -29,8 +29,15 @@ public class AdminCrudProductos extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jButtonCerrar = new javax.swing.JButton();
-        jButtonCrudProd = new javax.swing.JButton();
-        jButtonConsultarTickets = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableProductos = new javax.swing.JTable();
+        jLabelMostrarComidas = new javax.swing.JLabel();
+        jLabelMostrarComidas1 = new javax.swing.JLabel();
+        jLabelMostrarComidas2 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -48,58 +55,110 @@ public class AdminCrudProductos extends javax.swing.JDialog {
             }
         });
 
-        jButtonCrudProd.setBackground(new java.awt.Color(255, 153, 153));
-        jButtonCrudProd.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        jButtonCrudProd.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonCrudProd.setText("CRUD Productos");
-        jButtonCrudProd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCrudProdActionPerformed(evt);
+        jTableProductos.setBackground(new java.awt.Color(204, 204, 204));
+        jTableProductos.setForeground(new java.awt.Color(51, 51, 51));
+        jTableProductos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(jTableProductos);
+
+        jLabelMostrarComidas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/right-arrow-square-solid-24.png"))); // NOI18N
+        jLabelMostrarComidas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelMostrarComidasMouseClicked(evt);
             }
         });
 
-        jButtonConsultarTickets.setBackground(new java.awt.Color(255, 153, 153));
-        jButtonConsultarTickets.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        jButtonConsultarTickets.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonConsultarTickets.setText("Consultar Tickets");
-        jButtonConsultarTickets.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonConsultarTicketsActionPerformed(evt);
+        jLabelMostrarComidas1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/right-arrow-square-solid-24.png"))); // NOI18N
+        jLabelMostrarComidas1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelMostrarComidas1MouseClicked(evt);
             }
         });
+
+        jLabelMostrarComidas2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/right-arrow-square-solid-24.png"))); // NOI18N
+        jLabelMostrarComidas2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelMostrarComidas2MouseClicked(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Insertar");
+
+        jLabel3.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Editar");
+
+        jLabel4.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Borrar");
+
+        jLabel5.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Ten en cuenta que no se podran editar ni borrar Productos que ya esten en un ticket.");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(78, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(279, 279, 279)
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(163, 163, 163)
+                .addComponent(jButtonCerrar)
+                .addGap(592, 592, 592))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButtonCerrar)
-                        .addGap(17, 17, 17))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButtonCrudProd)
-                        .addGap(38, 38, 38)
-                        .addComponent(jButtonConsultarTickets)
-                        .addGap(71, 71, 71))))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabelMostrarComidas2)
+                        .addComponent(jLabelMostrarComidas1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jLabelMostrarComidas, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 992, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
-
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonConsultarTickets, jButtonCrudProd});
-
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCrudProd)
-                    .addComponent(jButtonConsultarTickets))
-                .addGap(18, 18, 18)
-                .addComponent(jButtonCerrar)
-                .addGap(14, 14, 14))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelMostrarComidas2))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelMostrarComidas1))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelMostrarComidas))
+                        .addGap(0, 305, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonCerrar))))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonConsultarTickets, jButtonCrudProd});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel2, jLabel3, jLabel4});
 
         jPanel2.setBackground(new java.awt.Color(16, 16, 16));
 
@@ -126,8 +185,8 @@ public class AdminCrudProductos extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1173, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,23 +203,34 @@ public class AdminCrudProductos extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButtonCerrarActionPerformed
 
-    private void jButtonCrudProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrudProdActionPerformed
+    private void jLabelMostrarComidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMostrarComidasMouseClicked
+        
+    }//GEN-LAST:event_jLabelMostrarComidasMouseClicked
 
-    }//GEN-LAST:event_jButtonCrudProdActionPerformed
-
-    private void jButtonConsultarTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarTicketsActionPerformed
+    private void jLabelMostrarComidas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMostrarComidas1MouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonConsultarTicketsActionPerformed
+    }//GEN-LAST:event_jLabelMostrarComidas1MouseClicked
+
+    private void jLabelMostrarComidas2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMostrarComidas2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabelMostrarComidas2MouseClicked
 
     /**
      * @param args the command line arguments
      */
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCerrar;
-    private javax.swing.JButton jButtonConsultarTickets;
-    private javax.swing.JButton jButtonCrudProd;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabelMostrarComidas;
+    private javax.swing.JLabel jLabelMostrarComidas1;
+    private javax.swing.JLabel jLabelMostrarComidas2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private static javax.swing.JTable jTableProductos;
     // End of variables declaration//GEN-END:variables
 }

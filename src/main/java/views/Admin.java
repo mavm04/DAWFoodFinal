@@ -4,6 +4,9 @@
  */
 package views;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 /**
  *
  * @author migue
@@ -16,6 +19,10 @@ public class Admin extends javax.swing.JDialog {
     public Admin(AdminLogin parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - getWidth()) / 2;
+        int y = (screenSize.height - getHeight()) / 2;
+        setLocation(x, y);
     }
 
     /**
@@ -145,11 +152,11 @@ public class Admin extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonCerrarActionPerformed
 
     private void jButtonCrudProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrudProdActionPerformed
-        new AdminCrudProductos(this, true);
+        new AdminCrudProductos(this, true).setVisible(true);
     }//GEN-LAST:event_jButtonCrudProdActionPerformed
 
     private void jButtonConsultarTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarTicketsActionPerformed
-        new AdminConsultarTickets(this, true);
+        new AdminConsultarTickets(this, true).setVisible(true);
     }//GEN-LAST:event_jButtonConsultarTicketsActionPerformed
 
     /**
