@@ -4,7 +4,6 @@
  */
 package views;
 
-import Models.Tpv;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -12,9 +11,9 @@ import java.awt.Toolkit;
  *
  * @author miguel
  */
-public class Programa extends javax.swing.JFrame {
+public class WokAndRoll extends javax.swing.JFrame {
     
-    public Programa() {
+    public WokAndRoll() {
         initComponents();
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -168,20 +167,21 @@ public class Programa extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Programa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WokAndRoll.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Programa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WokAndRoll.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Programa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WokAndRoll.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Programa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WokAndRoll.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Programa().setVisible(true);
+                new WokAndRoll().setVisible(true);
             }
         });
     }

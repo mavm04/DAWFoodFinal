@@ -34,7 +34,7 @@ public class Cliente extends javax.swing.JDialog {
     private static final ProductosJpaController pjc = new ProductosJpaController(emf);
     private Map<Productos, Integer> carritoMap = new HashMap<>();
 
-    public Cliente(Programa parent, boolean modal) {
+    public Cliente(WokAndRoll parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(parent);

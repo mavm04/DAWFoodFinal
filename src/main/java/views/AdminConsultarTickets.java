@@ -4,6 +4,15 @@
  */
 package views;
 
+import Models.ModeloTablaTicket;
+import Models.Ticket;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import jpaControllers.TicketJpaController;
+
 /**
  *
  * @author migue
@@ -13,9 +22,14 @@ public class AdminConsultarTickets extends javax.swing.JDialog {
     /**
      * Creates new form Admin
      */
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("repaso_DAWFoodFinal_jar_1.0-SNAPSHOTPU");
+    private static final TicketJpaController tjc = new TicketJpaController(emf);
+
     public AdminConsultarTickets(Admin parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
+        cargarDatosJTable();
     }
 
     /**
@@ -29,6 +43,10 @@ public class AdminConsultarTickets extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jButtonCerrar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableTickets = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jButtonEditar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -47,20 +65,60 @@ public class AdminConsultarTickets extends javax.swing.JDialog {
             }
         });
 
+        jTableTickets.setBackground(new java.awt.Color(204, 204, 204));
+        jTableTickets.setForeground(new java.awt.Color(51, 51, 51));
+        jTableTickets.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(jTableTickets);
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(102, 204, 255));
+        jLabel2.setText("VISUALIZAR TICKETS");
+
+        jButtonEditar.setBackground(new java.awt.Color(0, 153, 153));
+        jButtonEditar.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        jButtonEditar.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonEditar.setText("Visualizar");
+        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(439, Short.MAX_VALUE)
-                .addComponent(jButtonCerrar)
+                .addGap(279, 279, 279)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonCerrar)))
                 .addGap(17, 17, 17))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(272, Short.MAX_VALUE)
-                .addComponent(jButtonCerrar)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonCerrar)
+                    .addComponent(jButtonEditar))
                 .addGap(14, 14, 14))
         );
 
@@ -107,13 +165,66 @@ public class AdminConsultarTickets extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButtonCerrarActionPerformed
 
+    private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
+
+        int row = jTableTickets.getSelectedRow();
+
+        int id = (int) jTableTickets.getValueAt(row, 0);
+
+        Ticket ticket = tjc.findTicket(id);
+
+        new AdminConsultarDetalleVenta(this, true, ticket).setVisible(true);
+    }//GEN-LAST:event_jButtonEditarActionPerformed
+
     /**
      * @param args the command line arguments
      */
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCerrar;
+    private javax.swing.JButton jButtonEditar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private static javax.swing.JTable jTableTickets;
     // End of variables declaration//GEN-END:variables
+
+    public static void cargarDatosJTable() {
+        // Se crea el modelo de datos que contendrá el JTable
+        // Este modelo se rellena de datos y luego se asocia al JTable
+        ModeloTablaTicket modelo = new ModeloTablaTicket();
+
+        // Array de object con el número de columnas del jtable
+        // Para guardar cada campo de cada Persona de la lista
+        Object[] fila = new Object[modelo.getColumnCount()];
+
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            List<Ticket> listaTickets = em.createNamedQuery("Ticket.findAll", Ticket.class).getResultList();
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+            for (int i = 0; i < listaTickets.size(); i++) {
+
+                String fecha = "" + formatter.format(listaTickets.get(i).getFechaOperacion());
+
+                String mostrarFechaHora = "Fecha: "
+                        + fecha + " | Hora: "
+                        + listaTickets.get(i).getHoraOperacion();
+
+                fila[0] = listaTickets.get(i).getIdTicket();
+                fila[1] = mostrarFechaHora;
+                fila[2] = listaTickets.get(i).getImporteTotal() + " €";
+                // Agregamos esta fila a nuestro modelo
+                modelo.addRow(fila);
+            } // Al finalizar el bucle el modelo tendrá tantas filas como nuestra lista
+        } catch (Exception e) {
+        }
+        // Iteramos por la lista y asignamos a
+        // cada celda del array el valor del atributo de esa persona
+        // Decimos al JTable el modelo a usar
+        jTableTickets.setModel(modelo);
+    }
 }

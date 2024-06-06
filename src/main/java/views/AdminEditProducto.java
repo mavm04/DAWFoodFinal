@@ -19,7 +19,7 @@ import jpaControllers.TipoproductoJpaController;
  *
  * @author migue
  */
-public class AdminInsertProducto extends javax.swing.JDialog {
+public class AdminEditProducto extends javax.swing.JDialog {
 
     /**
      * Creates new form Admin
@@ -27,14 +27,17 @@ public class AdminInsertProducto extends javax.swing.JDialog {
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("repaso_DAWFoodFinal_jar_1.0-SNAPSHOTPU");
     private static final TipoproductoJpaController tpjc = new TipoproductoJpaController(emf);
     private static final ProductosJpaController pjc = new ProductosJpaController(emf);
-
-    public AdminInsertProducto(AdminCrud parent, boolean modal) {
+    private Productos pTmp = new Productos();
+    
+    public AdminEditProducto(AdminCrud parent, boolean modal, Productos p1) {
         super(parent, modal);
         initComponents();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (screenSize.width - getWidth()) / 2;
         int y = (screenSize.height - getHeight()) / 2;
         setLocation(x, y);
+        this.pTmp = p1;
+        rellenarCampos(p1);
     }
 
     /**
@@ -59,7 +62,7 @@ public class AdminInsertProducto extends javax.swing.JDialog {
         jComboBoxIva = new javax.swing.JComboBox<>();
         jSpinnerStock = new javax.swing.JSpinner();
         jTextFieldPrecio = new javax.swing.JTextField();
-        jButtonInsertar = new javax.swing.JButton();
+        jButtonEditar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -93,12 +96,11 @@ public class AdminInsertProducto extends javax.swing.JDialog {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Descripción:");
 
-        jComboBoxTipoProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "comida", "bebida", "postre" }));
+        jComboBoxTipoProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "COMIDA", "BEBIDA", "POSTRE" }));
 
         jLabel7.setForeground(new java.awt.Color(102, 204, 255));
-        jLabel7.setText("INSERTAR PRODUCTO");
+        jLabel7.setText("EDITAR PRODUCTO");
 
-        jTextFieldDescripcion.setText("ej: maki de salmon");
         jTextFieldDescripcion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTextFieldDescripcionMouseClicked(evt);
@@ -114,7 +116,6 @@ public class AdminInsertProducto extends javax.swing.JDialog {
 
         jSpinnerStock.setModel(new javax.swing.SpinnerNumberModel(1, 1, 100, 1));
 
-        jTextFieldPrecio.setText("ej: 5.99");
         jTextFieldPrecio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTextFieldPrecioMouseClicked(evt);
@@ -126,13 +127,13 @@ public class AdminInsertProducto extends javax.swing.JDialog {
             }
         });
 
-        jButtonInsertar.setBackground(new java.awt.Color(0, 153, 153));
-        jButtonInsertar.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        jButtonInsertar.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonInsertar.setText("Insertar");
-        jButtonInsertar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonEditar.setBackground(new java.awt.Color(0, 153, 153));
+        jButtonEditar.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        jButtonEditar.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonEditar.setText("Editar");
+        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonInsertarActionPerformed(evt);
+                jButtonEditarActionPerformed(evt);
             }
         });
 
@@ -141,30 +142,35 @@ public class AdminInsertProducto extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButtonInsertar)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonCerrar)
-                        .addGap(17, 17, 17))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
+                        .addGap(0, 36, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBoxTipoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jTextFieldPrecio, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jSpinnerStock, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jComboBoxIva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTextFieldDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
-                        .addGap(33, 33, 33))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonCerrar)
+                                .addGap(17, 17, 17))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBoxTipoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jTextFieldPrecio, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jSpinnerStock, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jComboBoxIva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTextFieldDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(33, 33, 33))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,13 +199,15 @@ public class AdminInsertProducto extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCerrar)
-                    .addComponent(jButtonInsertar))
+                    .addComponent(jButtonEditar))
                 .addGap(14, 14, 14))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel3, jSpinnerStock});
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel2, jTextFieldPrecio});
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonCerrar, jButtonEditar});
 
         jPanel2.setBackground(new java.awt.Color(16, 16, 16));
 
@@ -252,43 +260,11 @@ public class AdminInsertProducto extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldPrecioActionPerformed
 
-    private void jButtonInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsertarActionPerformed
-        insertar();
-    }//GEN-LAST:event_jButtonInsertarActionPerformed
-
-    private void jTextFieldPrecioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldPrecioMouseClicked
-        jTextFieldPrecio.setText("");
-    }//GEN-LAST:event_jTextFieldPrecioMouseClicked
-
-    private void jTextFieldDescripcionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldDescripcionMouseClicked
-        jTextFieldDescripcion.setText("");
-    }//GEN-LAST:event_jTextFieldDescripcionMouseClicked
-
-    /**
-     * @param args the command line arguments
-     */
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonCerrar;
-    private javax.swing.JButton jButtonInsertar;
-    private javax.swing.JComboBox<String> jComboBoxIva;
-    private javax.swing.JComboBox<String> jComboBoxTipoProducto;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JSpinner jSpinnerStock;
-    private javax.swing.JTextField jTextFieldDescripcion;
-    private javax.swing.JTextField jTextFieldPrecio;
-    // End of variables declaration//GEN-END:variables
-
-    private void insertar() {
-
+    private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
+        
         try {
+            Productos pTmp = this.pTmp;
+            
             double precio = Double.parseDouble(jTextFieldPrecio.getText().trim());
             int stock = Integer.parseInt(jSpinnerStock.getValue().toString().trim());
 
@@ -306,23 +282,64 @@ public class AdminInsertProducto extends javax.swing.JDialog {
                 tpTmp = tpjc.findTipoproducto(3);
             }
 
-            Productos p1 = new Productos();
-
-            p1.setPrecio(BigDecimal.valueOf(precio));
-            p1.setStock(stock);
-            p1.setIva(BigDecimal.valueOf(iva));
-            p1.setDescripcion(descripcion);
-            p1.setIdTipoProducto(tpTmp);
-
-            pjc.create(p1);
-
-            dispose();
-
-            AdminCrud.cargarDatosJTable();
+            pTmp.setPrecio(BigDecimal.valueOf(precio));
+            pTmp.setStock(stock);
+            pTmp.setIva(BigDecimal.valueOf(iva));
+            pTmp.setDescripcion(descripcion);
+            pTmp.setIdTipoProducto(tpTmp);
             
-            JOptionPane.showMessageDialog(null, "¡Producto creado correctamente!");
-        } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(null, "Error al crear el producto, datos erroneos.");
+            pjc.edit(pTmp);
+            
+            JOptionPane.showMessageDialog(null, "¡Producto editado correctamente!");
+            AdminCrud.cargarDatosJTable();
+            dispose();
+        } catch (Exception e) {
         }
+    }//GEN-LAST:event_jButtonEditarActionPerformed
+
+    private void jTextFieldPrecioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldPrecioMouseClicked
+        jTextFieldPrecio.setText("");
+    }//GEN-LAST:event_jTextFieldPrecioMouseClicked
+
+    private void jTextFieldDescripcionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldDescripcionMouseClicked
+        jTextFieldDescripcion.setText("");
+    }//GEN-LAST:event_jTextFieldDescripcionMouseClicked
+
+    /**
+     * @param args the command line arguments
+     */
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonCerrar;
+    private javax.swing.JButton jButtonEditar;
+    private static javax.swing.JComboBox<String> jComboBoxIva;
+    private static javax.swing.JComboBox<String> jComboBoxTipoProducto;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private static javax.swing.JSpinner jSpinnerStock;
+    private static javax.swing.JTextField jTextFieldDescripcion;
+    private static javax.swing.JTextField jTextFieldPrecio;
+    // End of variables declaration//GEN-END:variables
+
+    private static void rellenarCampos(Productos pTmp) {
+
+        jTextFieldPrecio.setText("" + pTmp.getPrecio());
+        jSpinnerStock.setValue(pTmp.getStock());
+        
+        if (pTmp.getIva().toString().trim().equalsIgnoreCase("21.00")) {
+            jComboBoxIva.setSelectedIndex(1);
+        } else {
+            jComboBoxIva.setSelectedIndex(0);
+        }
+        
+        jTextFieldDescripcion.setText(pTmp.getDescripcion());
+        
+        jComboBoxTipoProducto.setSelectedItem(pTmp.getIdTipoProducto().getNomCategoria().trim().toUpperCase());
     }
 }

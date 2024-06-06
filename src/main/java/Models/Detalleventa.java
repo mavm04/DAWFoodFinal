@@ -23,20 +23,30 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "detalleventa")
 @XmlRootElement
 @NamedQueries({
+    // Consulta para seleccionar todos los registros de la tabla detalleventa.
     @NamedQuery(name = "Detalleventa.findAll", query = "SELECT d FROM Detalleventa d"),
+    // Consulta para seleccionar registros donde la columna cantidadProducto coincide con un valor específico.
     @NamedQuery(name = "Detalleventa.findByCantidadProducto", query = "SELECT d FROM Detalleventa d WHERE d.cantidadProducto = :cantidadProducto"),
+    // Consulta para seleccionar registros donde la columna idProducto en la clave primaria coincida con un valor específico.
     @NamedQuery(name = "Detalleventa.findByIdProducto", query = "SELECT d FROM Detalleventa d WHERE d.detalleventaPK.idProducto = :idProducto"),
+    // Consulta para seleccionar registros donde la columna idTicket en la clave primaria coincida con un valor específico.
     @NamedQuery(name = "Detalleventa.findByIdTicket", query = "SELECT d FROM Detalleventa d WHERE d.detalleventaPK.idTicket = :idTicket")})
 public class Detalleventa implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
+    // Anota el campo "detalleventaPK" como una clave primaria compuesta en esta entidad.
     protected DetalleventaPK detalleventaPK;
+    // Mapea el campo a la columna "cantidadProducto" en la base de datos.
     @Column(name = "cantidadProducto")
     private Integer cantidadProducto;
+    // Define una relación ManyToOne con la entidad Productos y especifica la columna IdProducto como la clave ajena.
+    // insertable = false, updatable = false indica que esta columna no se incluirá en operaciones de inserción o actualización.
     @JoinColumn(name = "IdProducto", referencedColumnName = "IdProducto", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Productos productos;
+    // Define una relación ManyToOne con la entidad "Ticket" y especifica la columna "IdTicket" como la clave ajena.
+    // "insertable = false, updatable = false" indica que esta columna no se incluirá en operaciones de inserción o actualización.
     @JoinColumn(name = "IdTicket", referencedColumnName = "IdTicket", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Ticket ticket;

@@ -4,13 +4,22 @@
  */
 package views;
 
+import Models.Detalleventa;
 import Models.ModeloTablaProducto;
 import Models.Productos;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
+import jpaControllers.DetalleventaJpaController;
 import jpaControllers.ProductosJpaController;
+import jpaControllers.exceptions.IllegalOrphanException;
+import jpaControllers.exceptions.NonexistentEntityException;
 
 /**
  *
@@ -23,10 +32,15 @@ public class AdminCrud extends javax.swing.JDialog {
      */
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("repaso_DAWFoodFinal_jar_1.0-SNAPSHOTPU");
     private static final ProductosJpaController pjc = new ProductosJpaController(emf);
+    private static final DetalleventaJpaController dvjc = new DetalleventaJpaController(emf);
 
     public AdminCrud(Admin parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - getWidth()) / 2;
+        int y = (screenSize.height - getHeight()) / 2;
+        setLocation(x, y);
         cargarDatosJTable();
     }
 
@@ -246,15 +260,83 @@ public class AdminCrud extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonCerrarActionPerformed
 
     private void jLabelBorrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelBorrarMouseClicked
+        //saco la lista de detalleVenta para saber despues si el producto a 
+        //borrar esta ya registrado en un detalleVenta y en ese caso no lanzar
+        //la operacion de borrar
+        List<Detalleventa> listDetalleVenta = dvjc.findDetalleventaEntities();
+
+        //saco el idproducto del producto que se quiere borrar
+        try {
+            int row = jTableProductos.getSelectedRow();
+
+            int id = (int) jTableProductos.getValueAt(row, 0);
+
+            //false - no tiene detalleVenta / true - si la tiene
+            boolean tieneDetalleVenta = false;
+
+            for (Detalleventa detalleventa : listDetalleVenta) {
+                if (detalleventa.getDetalleventaPK().getIdProducto() == id) {
+                    tieneDetalleVenta = true;
+                }
+            }
+
+            if (!tieneDetalleVenta) {
+                try {
+                    pjc.destroy(id);
+                    JOptionPane.showMessageDialog(null, "Se ha borrado correctamente.");
+                    cargarDatosJTable();
+                } catch (IllegalOrphanException ex) {
+                    Logger.getLogger(AdminCrud.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(AdminCrud.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No se puede"
+                        + " borrar el producto ya que existe en un ticket.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No has seleccionado un producto de la tabla.");
+        }
 
     }//GEN-LAST:event_jLabelBorrarMouseClicked
 
     private void jLabelEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelEditarMouseClicked
-        // TODO add your handling code here:
+        //saco la lista de detalleVenta para saber despues si el producto a 
+        //borrar esta ya registrado en un detalleVenta y en ese caso no lanzar
+        //la operacion de borrar
+        List<Detalleventa> listDetalleVenta = dvjc.findDetalleventaEntities();
+
+        //saco el idproducto del producto que se quiere borrar
+        try {
+            int row = jTableProductos.getSelectedRow();
+
+            int id = (int) jTableProductos.getValueAt(row, 0);
+            Productos pTmp = pjc.findProductos(id);
+            System.out.println(pTmp);
+            //false - no tiene detalleVenta / true - si la tiene
+            boolean tieneDetalleVenta = false;
+
+            for (Detalleventa detalleventa : listDetalleVenta) {
+                if (detalleventa.getDetalleventaPK().getIdProducto() == id) {
+                    tieneDetalleVenta = true;
+                }
+            }
+
+            if (!tieneDetalleVenta) {
+                new AdminEditProducto(this, true, pTmp).setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se puede"
+                        + " borrar el producto ya que existe en un ticket.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No has seleccionado un producto de la tabla.");
+        }
     }//GEN-LAST:event_jLabelEditarMouseClicked
 
     private void jLabelInsertarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelInsertarMouseClicked
-        // TODO add your handling code here:
+        new AdminInsertProducto(this, true).setVisible(true);
     }//GEN-LAST:event_jLabelInsertarMouseClicked
 
     /**
